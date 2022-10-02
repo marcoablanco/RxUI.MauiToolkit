@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	   xmlns:dashboard="clr-namespace:SampleUse.Features.Dashboard"
+	   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	   x:Class="SampleUse.Features.Main.MainShell"
+	   Shell.FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate dashboard:DashboardPage}"
+        Route="MainPage" />
+
+</Shell>
