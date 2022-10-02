@@ -54,8 +54,9 @@ jobs:
         configuration: '$(buildConfiguration)'
 
   - job: Publish_Artifacts
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'Windows-build'
-        publishLocation: 'Container'
+    steps:
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'Windows-build'
+          publishLocation: 'Container'
