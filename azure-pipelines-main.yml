@@ -26,10 +26,17 @@ jobs:
       vmImage: 'windows-latest'
     steps:
     - task: NuGetToolInstaller@1
+    
+    - checkout: self
+      fetchDepth: 0
 
-    - task: NuGetCommand@2
+    - task: gitversion/setup@0
+      displayName: Install GitVersion
       inputs:
-        restoreSolution: '$(solution)'
+        versionSpec: "5.10.x"
+    
+    - task: gitversion/execute@0
+      displayName: Determine Version
 
     - script: |
         echo Major: $(GitVersion.Major)
@@ -65,9 +72,14 @@ jobs:
         echo UncommittedChanges: $(GitVersion.UncommittedChanges)
         echo CommitDate: $(GitVersion.CommitDate)
 
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)' 
+
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
+        msbuildArgs: '/p:Version=$(GitVersion.NuGetVersion)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
