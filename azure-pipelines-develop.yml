@@ -26,10 +26,6 @@ jobs:
       vmImage: 'windows-latest'
     steps:
     - task: NuGetToolInstaller@1
-
-    - task: NuGetCommand@2
-      inputs:
-        restoreSolution: '$(solution)' 
     
     - checkout: self
       fetchDepth: 0
@@ -75,6 +71,10 @@ jobs:
         echo CommitsSinceVersionSourcePadded: $(GitVersion.CommitsSinceVersionSourcePadded)
         echo UncommittedChanges: $(GitVersion.UncommittedChanges)
         echo CommitDate: $(GitVersion.CommitDate)
+
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)' 
 
     - task: VSBuild@1
       inputs:
