@@ -31,6 +31,8 @@
 		<Description>Toolkit genérico usando ReactiveUI con clases base, helpers, servicios y controles típicos en proyectos.</Description>
 		<Copyright>https://github.com/marcoablanco/RxUI.MauiToolkit/blob/main/LICENSE</Copyright>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<Version>1.0</Version>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
