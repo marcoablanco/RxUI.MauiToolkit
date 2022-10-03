@@ -79,7 +79,7 @@ jobs:
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
-        msbuildArgs: '--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)'
+        msbuildArgs: '/p:Version=$(GitVersion.NuGetVersion)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
