@@ -1,0 +1,90 @@
+
+variables:
+  solution: 'RxUI.MauiToolkit/RxUI.MauiToolkit.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  TOOLKIT_NET6_VERSION: '6.0.300'
+  LATEST_NET6_VERSION: '6.0.x'
+
+
+trigger:
+  branches:
+    include:
+    - develop
+pr:
+  autoCancel: 'true'
+  branches:
+    include:
+    - develop
+  paths:
+    exclude:
+    - README.md
+
+jobs:
+  - job: build
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: NuGetToolInstaller@1
+
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
+
+    - script: |
+        echo Major: $(GitVersion.Major)
+        echo Minor: $(GitVersion.Minor)
+        echo Patch: $(GitVersion.Patch)
+        echo PreReleaseTag: $(GitVersion.PreReleaseTag)
+        echo PreReleaseTagWithDash: $(GitVersion.PreReleaseTagWithDash)
+        echo PreReleaseLabel: $(GitVersion.PreReleaseLabel)
+        echo PreReleaseNumber: $(GitVersion.PreReleaseNumber)
+        echo WeightedPreReleaseNumber: $(GitVersion.WeightedPreReleaseNumber)
+        echo BuildMetaData: $(GitVersion.BuildMetaData)
+        echo BuildMetaDataPadded: $(GitVersion.BuildMetaDataPadded)
+        echo FullBuildMetaData: $(GitVersion.FullBuildMetaData)
+        echo MajorMinorPatch: $(GitVersion.MajorMinorPatch)
+        echo SemVer: $(GitVersion.SemVer)
+        echo LegacySemVer: $(GitVersion.LegacySemVer)
+        echo LegacySemVerPadded: $(GitVersion.LegacySemVerPadded)
+        echo AssemblySemVer: $(GitVersion.AssemblySemVer)
+        echo AssemblySemFileVer: $(GitVersion.AssemblySemFileVer)
+        echo FullSemVer: $(GitVersion.FullSemVer)
+        echo InformationalVersion: $(GitVersion.InformationalVersion)
+        echo BranchName: $(GitVersion.BranchName)
+        echo EscapedBranchName: $(GitVersion.EscapedBranchName)
+        echo Sha: $(GitVersion.Sha)
+        echo ShortSha: $(GitVersion.ShortSha)
+        echo NuGetVersionV2: $(GitVersion.NuGetVersionV2)
+        echo NuGetVersion: $(GitVersion.NuGetVersion)
+        echo NuGetPreReleaseTagV2: $(GitVersion.NuGetPreReleaseTagV2)
+        echo NuGetPreReleaseTag: $(GitVersion.NuGetPreReleaseTag)
+        echo VersionSourceSha: $(GitVersion.VersionSourceSha)
+        echo CommitsSinceVersionSource: $(GitVersion.CommitsSinceVersionSource)
+        echo CommitsSinceVersionSourcePadded: $(GitVersion.CommitsSinceVersionSourcePadded)
+        echo UncommittedChanges: $(GitVersion.UncommittedChanges)
+        echo CommitDate: $(GitVersion.CommitDate)
+
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: '**\bin\release\**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: VSTest@2
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'Builds'
+        publishLocation: 'Container'
