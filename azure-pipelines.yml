@@ -23,7 +23,7 @@ pr:
     - README.md
 
 jobs:
-  - job: build_windows
+  - job: build
     pool:
       vmImage: 'windows-latest'
     steps:
