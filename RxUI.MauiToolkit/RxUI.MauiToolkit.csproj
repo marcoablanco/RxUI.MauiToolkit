@@ -22,10 +22,30 @@
 		<PackageProjectUrl>https://github.com/marcoablanco/RxUI.MauiToolkit</PackageProjectUrl>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/marcoablanco/RxUI.MauiToolkit</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>maui;xamarin;reactiveui;rxui</PackageTags>
+		<SignAssembly>False</SignAssembly>
+		<Authors>Marcos Antonio Blanco</Authors>
+		<Description>Toolkit genérico usando ReactiveUI con clases base, helpers, servicios y controles típicos en proyectos.</Description>
+		<Copyright>https://github.com/marcoablanco/RxUI.MauiToolkit/blob/main/LICENSE</Copyright>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <Folder Include="Services\AppLog\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
