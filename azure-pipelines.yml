@@ -29,17 +29,9 @@ jobs:
     steps:
     - task: NuGetToolInstaller@1
 
-    - task: gitversion/setup@0
-      displayName: Install GitVersion
-      inputs:
-        versionSpec: '5.x'
-
     - task: NuGetCommand@2
       inputs:
         restoreSolution: '$(solution)'
-    
-    - task: gitversion/execute@0
-      displayName: Determine Version
 
     - script: |
         echo Major: $(GitVersion.Major)
