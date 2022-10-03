@@ -93,3 +93,4 @@ public LoginPage(IServiceProvider serviceProvider) : base(serviceProvider)
 ```
 
 De esta forma ambos estaría usando la misma instancia del servicio, pero se crearían nuevas para distintas pantallas o controles. Esta misma resolución puede hacerse con `ILoadingService<TCategory>`.
+También podemos resolver el servicio sin párametro genérico y usaríamos la misma instancia en toda la aplicación.

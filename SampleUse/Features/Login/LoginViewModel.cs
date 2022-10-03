@@ -9,6 +9,6 @@ public class LoginViewModel : RxBasePageViewModel
 
 	public LoginViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
 	{
-		loadingService = serviceProvider.GetRequiredService<ILoadingService>();
+		loadingService = serviceProvider.GetRequiredService<ILoadingService<LoginViewModel>>();
 	}
 }
