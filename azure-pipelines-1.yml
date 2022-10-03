@@ -10,12 +10,11 @@ variables:
 trigger:
   branches:
     include:
-    - main
+    - develop
 pr:
   autoCancel: 'true'
   branches:
     include:
-    - main
     - develop
   paths:
     exclude:
