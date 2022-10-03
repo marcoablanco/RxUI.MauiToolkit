@@ -29,7 +29,18 @@ jobs:
 
     - task: NuGetCommand@2
       inputs:
-        restoreSolution: '$(solution)'
+        restoreSolution: '$(solution)' 
+    
+    - checkout: self
+      fetchDepth: 0
+
+    - task: gitversion/setup@0
+      displayName: Install GitVersion
+      inputs:
+        versionSpec: "5.10.x"
+    
+    - task: gitversion/execute@0
+      displayName: Determine Version
 
     - script: |
         echo Major: $(GitVersion.Major)
