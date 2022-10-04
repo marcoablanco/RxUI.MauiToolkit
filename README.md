@@ -8,7 +8,8 @@ Toolkit genérico usando ReactiveUI con clases base, helpers, servicios y contro
 	- [Log](#log)
 	- [LoadingService](#loadingservice)
 
- [![Build Status](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_apis/build/status/marcoablanco.RxUI.MauiToolkit?branchName=main)](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_build/latest?definitionId=2&branchName=main)
+ - Main: [![Build Status](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_apis/build/status/marcoablanco.RxUI.MauiToolkit?branchName=main)](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_build/latest?definitionId=2&branchName=main)
+ - Develop: [![Build Status](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_apis/build/status/Develop%20CI?branchName=develop)](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_build/latest?definitionId=3&branchName=develop)
 
 ## Inicialización
 Para inicializar el paquete usamos `.InitRxToolkit()`, que encontraremos en el namespace `RxUI.MauiToolkit.Configuration`, como método de extensión de `MauiAppBuilder` cuando creamos nuestra `MauiApp`:
