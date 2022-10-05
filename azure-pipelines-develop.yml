@@ -21,6 +21,7 @@ pr:
     - develop
   paths:
     exclude:
+    - main
     - README.md
 
 jobs:
@@ -84,7 +85,20 @@ jobs:
         solution: '$(solution)'
         msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)"'
         platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'    
+        configuration: '$(buildConfiguration)'
+
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        codeCoverageEnabled: true
+        testRunTitle: 'v$(GitVersion.SemVer)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
