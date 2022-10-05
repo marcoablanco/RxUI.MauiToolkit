@@ -62,7 +62,7 @@ jobs:
           !**\*TestAdapter.dll
           !**\obj\**
         searchFolder: '$(System.DefaultWorkingDirectory)'
-        resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
+        resultsFolder: '$(Build.SourcesDirectory)\TestResults'
         codeCoverageEnabled: true
         testRunTitle: 'Test for v$(GitVersion.SemVer)'
         platform: '$(buildPlatform)'
@@ -71,7 +71,7 @@ jobs:
     - task: reportgenerator@5
       displayName: ReportGenerator
       inputs:
-        reports: '$(System.DefaultWorkingDirectory)\TestResults\**\*.coverage'
+        reports: '$(Build.SourcesDirectory)\TestResults\**\*.coverage'
         targetdir: '$(Build.SourcesDirectory)\coveragereport'
         reporttypes: Html;XML;MarkdownSummary
 
@@ -79,7 +79,9 @@ jobs:
       displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'
-        Contents: '**\bin\release\**'
+        Contents: |
+          '**\bin\release\**'
+          '$(Build.SourcesDirectory)\coveragereport'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: PublishBuildArtifacts@1
