@@ -5,12 +5,16 @@ variables:
   buildConfiguration: 'Release'
   TOOLKIT_NET6_VERSION: '6.0.300'
   LATEST_NET6_VERSION: '6.0.x'
+  disable.coverage.autogenerate: 'true'
 
 
 trigger:
   branches:
     include:
-    - develop
+      - develop
+      - feature/*
+    exclude:
+      - main
 pr:
   autoCancel: 'true'
   branches:
@@ -18,6 +22,7 @@ pr:
     - develop
   paths:
     exclude:
+    - main
     - README.md
 
 jobs:
@@ -38,40 +43,6 @@ jobs:
     - task: gitversion/execute@0
       displayName: Determine Version
 
-    - script: |
-        echo Major: $(GitVersion.Major)
-        echo Minor: $(GitVersion.Minor)
-        echo Patch: $(GitVersion.Patch)
-        echo PreReleaseTag: $(GitVersion.PreReleaseTag)
-        echo PreReleaseTagWithDash: $(GitVersion.PreReleaseTagWithDash)
-        echo PreReleaseLabel: $(GitVersion.PreReleaseLabel)
-        echo PreReleaseNumber: $(GitVersion.PreReleaseNumber)
-        echo WeightedPreReleaseNumber: $(GitVersion.WeightedPreReleaseNumber)
-        echo BuildMetaData: $(GitVersion.BuildMetaData)
-        echo BuildMetaDataPadded: $(GitVersion.BuildMetaDataPadded)
-        echo FullBuildMetaData: $(GitVersion.FullBuildMetaData)
-        echo MajorMinorPatch: $(GitVersion.MajorMinorPatch)
-        echo SemVer: $(GitVersion.SemVer)
-        echo LegacySemVer: $(GitVersion.LegacySemVer)
-        echo LegacySemVerPadded: $(GitVersion.LegacySemVerPadded)
-        echo AssemblySemVer: $(GitVersion.AssemblySemVer)
-        echo AssemblySemFileVer: $(GitVersion.AssemblySemFileVer)
-        echo FullSemVer: $(GitVersion.FullSemVer)
-        echo InformationalVersion: $(GitVersion.InformationalVersion)
-        echo BranchName: $(GitVersion.BranchName)
-        echo EscapedBranchName: $(GitVersion.EscapedBranchName)
-        echo Sha: $(GitVersion.Sha)
-        echo ShortSha: $(GitVersion.ShortSha)
-        echo NuGetVersionV2: $(GitVersion.NuGetVersionV2)
-        echo NuGetVersion: $(GitVersion.NuGetVersion)
-        echo NuGetPreReleaseTagV2: $(GitVersion.NuGetPreReleaseTagV2)
-        echo NuGetPreReleaseTag: $(GitVersion.NuGetPreReleaseTag)
-        echo VersionSourceSha: $(GitVersion.VersionSourceSha)
-        echo CommitsSinceVersionSource: $(GitVersion.CommitsSinceVersionSource)
-        echo CommitsSinceVersionSourcePadded: $(GitVersion.CommitsSinceVersionSourcePadded)
-        echo UncommittedChanges: $(GitVersion.UncommittedChanges)
-        echo CommitDate: $(GitVersion.CommitDate)
-
     - task: NuGetCommand@2
       inputs:
         restoreSolution: '$(solution)' 
@@ -81,19 +52,35 @@ jobs:
         solution: '$(solution)'
         msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)"'
         platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'    
+        configuration: '$(buildConfiguration)'
+
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*RxUI.MauiToolkit.Tests*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        resultsFolder: '$(Build.SourcesDirectory)\TestResults'
+        codeCoverageEnabled: true
+        testRunTitle: 'Test for v$(GitVersion.SemVer)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+    
+    - task: reportgenerator@5
+      displayName: ReportGenerator
+      inputs:
+        reports: '$(Build.SourcesDirectory)\TestResults\**\*.coverage'
+        targetdir: '$(Build.SourcesDirectory)\bin\coveragereport'
+        reporttypes: Html;XML;MarkdownSummary
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'
-        Contents: '**\bin\release\**'
+        Contents: '**\bin\**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-    - task: VSTest@2
-      inputs:
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
 
     - task: PublishBuildArtifacts@1
       inputs:

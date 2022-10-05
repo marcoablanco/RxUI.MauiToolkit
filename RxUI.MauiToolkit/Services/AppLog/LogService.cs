@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using RxUI.MauiToolkit.Utils;
 
-internal class LogService<TCategoryName> : ILogService<TCategoryName>
+public class LogService<TCategoryName> : ILogService<TCategoryName>
 {
 	private readonly ILogger<TCategoryName> logger;
 	private ObservableCollection<string> log;

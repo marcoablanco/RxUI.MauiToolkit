@@ -14,9 +14,7 @@ public abstract class RxBaseViewModel : ReactiveObject
 		NameViewModel = GetType().Name;
 	}
 
-	public IDispatcher? Dispatcher { get; set; }
-
-	protected string NameViewModel { get; }
+	public string NameViewModel { get; }
 
 
 }
