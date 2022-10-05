@@ -61,6 +61,7 @@ jobs:
           !**\*TestAdapter.dll
           !**\obj\**
         searchFolder: '$(System.DefaultWorkingDirectory)'
+        resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
         codeCoverageEnabled: true
         testRunTitle: 'Test for v$(GitVersion.SemVer)'
         platform: '$(buildPlatform)'
@@ -69,7 +70,7 @@ jobs:
     - task: reportgenerator@5
       displayName: ReportGenerator
       inputs:
-        reports: '$(Agent.TempDirectory)\TestResults\*coverage'
+        reports: '$(System.DefaultWorkingDirectory)\TestResults\*coverage'
         targetdir: '$(Build.SourcesDirectory)\coveragereport'
         reporttypes: Html;XML;MarkdownSummary
 
