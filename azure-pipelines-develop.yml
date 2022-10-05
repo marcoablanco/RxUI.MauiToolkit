@@ -5,6 +5,7 @@ variables:
   buildConfiguration: 'Release'
   TOOLKIT_NET6_VERSION: '6.0.300'
   LATEST_NET6_VERSION: '6.0.x'
+  disable.coverage.autogenerate: 'true'
 
 
 trigger:
@@ -70,7 +71,7 @@ jobs:
     - task: reportgenerator@5
       displayName: ReportGenerator
       inputs:
-        reports: '$(System.DefaultWorkingDirectory)\TestResults\*.coverage'
+        reports: '$(System.DefaultWorkingDirectory)\TestResults\**\*.coverage'
         targetdir: '$(Build.SourcesDirectory)\coveragereport'
         reporttypes: Html;XML;MarkdownSummary
 
