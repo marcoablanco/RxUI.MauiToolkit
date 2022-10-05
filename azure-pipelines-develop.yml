@@ -10,7 +10,10 @@ variables:
 trigger:
   branches:
     include:
-    - develop
+      - develop
+      - feature/*
+    exclude:
+      - main
 pr:
   autoCancel: 'true'
   branches:
@@ -18,6 +21,7 @@ pr:
     - develop
   paths:
     exclude:
+    - main
     - README.md
 
 jobs:
@@ -79,7 +83,7 @@ jobs:
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
-        msbuildArgs: '/p:Version="1.0.$(GitVersion.WeightedPreReleaseNumber)" /p:ApplicationDisplayVersion="1.0.$(GitVersion.WeightedPreReleaseNumber)"'
+        msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
@@ -87,10 +91,12 @@ jobs:
       inputs:
         testSelector: 'testAssemblies'
         testAssemblyVer2: |
-          **\*Tests*.dll
+          **\*test*.dll
           !**\*TestAdapter.dll
           !**\obj\**
         searchFolder: '$(System.DefaultWorkingDirectory)'
+        codeCoverageEnabled: true
+        testRunTitle: 'v$(GitVersion.SemVer)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
@@ -100,6 +106,11 @@ jobs:
         SourceFolder: '$(Build.SourcesDirectory)'
         Contents: '**\bin\release\**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: VSTest@2
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
     - task: PublishBuildArtifacts@1
       inputs:
