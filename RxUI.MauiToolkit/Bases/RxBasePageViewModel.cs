@@ -15,6 +15,8 @@ public abstract class RxBasePageViewModel : RxBaseViewModel
 		logService = serviceProvider.GetRequiredService<ILogService>();
 	}
 
+	public IDispatcher? Dispatcher { get; set; }
+
 
 	public virtual CompositeDisposable OnActivated(CompositeDisposable disposables)
 	{

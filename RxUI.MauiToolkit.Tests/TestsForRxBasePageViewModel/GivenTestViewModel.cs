@@ -7,6 +7,7 @@ using RxUI.MauiToolkit.Services.AppLog;
 using RxUI.MauiToolkit.Tests.TestsForRxBasePageViewModel;
 using System.Reactive.Disposables;
 
+[TestCategory(nameof(RxBasePageViewModel))]
 public class GivenTestViewModel
 {
 	[TestClass]
