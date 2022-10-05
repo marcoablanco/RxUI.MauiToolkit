@@ -91,12 +91,12 @@ jobs:
       inputs:
         testSelector: 'testAssemblies'
         testAssemblyVer2: |
-          **\*test*.dll
+          **\*RxUI.MauiToolkit.Tests*.dll
           !**\*TestAdapter.dll
           !**\obj\**
         searchFolder: '$(System.DefaultWorkingDirectory)'
         codeCoverageEnabled: true
-        testRunTitle: 'v$(GitVersion.SemVer)'
+        testRunTitle: 'Test for v$(GitVersion.SemVer)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
@@ -106,11 +106,6 @@ jobs:
         SourceFolder: '$(Build.SourcesDirectory)'
         Contents: '**\bin\release\**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-    - task: VSTest@2
-      inputs:
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
 
     - task: PublishBuildArtifacts@1
       inputs:
