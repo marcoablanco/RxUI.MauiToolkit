@@ -81,7 +81,18 @@ jobs:
         solution: '$(solution)'
         msbuildArgs: '/p:Version="1.0.$(GitVersion.WeightedPreReleaseNumber)" /p:ApplicationDisplayVersion="1.0.$(GitVersion.WeightedPreReleaseNumber)"'
         platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'    
+        configuration: '$(buildConfiguration)'
+
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*Tests*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
@@ -89,11 +100,6 @@ jobs:
         SourceFolder: '$(Build.SourcesDirectory)'
         Contents: '**\bin\release\**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-    - task: VSTest@2
-      inputs:
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
 
     - task: PublishBuildArtifacts@1
       inputs:
