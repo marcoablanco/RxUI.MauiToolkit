@@ -81,7 +81,7 @@ jobs:
         SourceFolder: '$(Build.SourcesDirectory)'
         Contents: |
           '**\bin\release\**'
-          '$(Build.SourcesDirectory)\coveragereport'
+          '$(Build.SourcesDirectory)\coveragereport\**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: PublishBuildArtifacts@1
