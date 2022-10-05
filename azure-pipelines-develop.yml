@@ -72,16 +72,14 @@ jobs:
       displayName: ReportGenerator
       inputs:
         reports: '$(Build.SourcesDirectory)\TestResults\**\*.coverage'
-        targetdir: '$(Build.SourcesDirectory)\coveragereport'
+        targetdir: '$(Build.SourcesDirectory)\bin\coveragereport'
         reporttypes: Html;XML;MarkdownSummary
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'
-        Contents: |
-          '**\bin\release\**'
-          '**\coveragereport\**'
+        Contents: '**\bin\**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: PublishBuildArtifacts@1
