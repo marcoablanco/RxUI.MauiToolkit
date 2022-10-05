@@ -70,7 +70,7 @@ jobs:
     - task: reportgenerator@5
       displayName: ReportGenerator
       inputs:
-        reports: '$(System.DefaultWorkingDirectory)\TestResults\*coverage'
+        reports: '$(System.DefaultWorkingDirectory)\TestResults\*.coverage'
         targetdir: '$(Build.SourcesDirectory)\coveragereport'
         reporttypes: Html;XML;MarkdownSummary
 
