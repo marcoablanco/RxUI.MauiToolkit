@@ -8,16 +8,20 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using RxUI.MauiToolkit.Utils;
 
-internal class LogService<TCategoryName> : ILogService<TCategoryName>
+public class LogService<TCategoryName> : ILogService<TCategoryName>
 {
 	private readonly ILogger<TCategoryName> logger;
 	private ObservableCollection<string> log;
 	private int i = 0;
 
-	public LogService(ILogger<TCategoryName> logger)
+	public LogService(IServiceProvider serviceProvider)
 	{
-		this.logger = logger;
+		Ensure.NotNull(serviceProvider);
+
+		logger =serviceProvider.GetRequiredService<ILogger<TCategoryName>>();
+
 		log = new ObservableCollection<string>();
 	}
 
@@ -122,7 +126,7 @@ internal class LogService<TCategoryName> : ILogService<TCategoryName>
 #if DEBUG
 		properties.Add("Debug", "True");
 #else
-			properties.Add("Debug", "False");
+		properties.Add("Debug", "False");
 #endif
 
 		properties.Add("Device Idiom", DeviceInfo.Idiom.ToString());

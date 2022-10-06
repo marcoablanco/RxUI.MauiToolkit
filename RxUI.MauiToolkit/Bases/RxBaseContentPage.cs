@@ -9,6 +9,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
+using RxUI.MauiToolkit.Utils;
 
 public abstract class RxBaseContentPage<TViewModel> : ReactiveContentPage<TViewModel> where TViewModel : RxBasePageViewModel
 {
@@ -20,6 +21,7 @@ public abstract class RxBaseContentPage<TViewModel> : ReactiveContentPage<TViewM
 
 	public RxBaseContentPage(IServiceProvider serviceProvider)
 	{
+		Ensure.NotNull(serviceProvider);
 		logService = serviceProvider.GetRequiredService<ILogService<TViewModel>>();
 		loadingService = serviceProvider.GetRequiredService<ILoadingService<TViewModel>>();
 

@@ -2,67 +2,19 @@
 
 using ReactiveUI;
 using RxUI.MauiToolkit.Services.AppLog;
+using RxUI.MauiToolkit.Utils;
 using System.Diagnostics;
 
 public abstract class RxBaseViewModel : ReactiveObject
 {
-	private readonly ILogService? logService;
-
-	public RxBaseViewModel(IServiceProvider? serviceProvider = null)
+	public RxBaseViewModel(IServiceProvider serviceProvider)
 	{
-		this.logService = serviceProvider?.GetService<ILogService>();
+		Ensure.NotNull(serviceProvider);
 
 		NameViewModel = GetType().Name;
-
-		logService?.Log($"{NameViewModel} created.");
 	}
 
-	public IDispatcher? Dispatcher { get; set; }
-
-	protected string NameViewModel { get; }
+	public string NameViewModel { get; }
 
 
-
-	protected virtual void Dispatch(Action action, bool secure = false)
-	{
-		if (secure)
-		{
-			try
-			{
-				if (Dispatcher is null)
-					action?.Invoke();
-				else
-				{
-					Dispatcher.Dispatch(() =>
-					{
-						try
-						{
-							action.Invoke();
-						}
-						catch (Exception ex)
-						{
-							if (logService is not null)
-								logService.Error(ex);
-							else
-								Debug.WriteLine(ex.Message);
-						}
-					});
-				}
-			}
-			catch (Exception ex)
-			{
-				if (logService is not null)
-					logService.Error(ex);
-				else
-					Debug.WriteLine(ex.Message);
-			}
-		}
-		else
-		{
-			if (Dispatcher is null)
-				action?.Invoke();
-			else
-				Dispatcher.Dispatch(action);
-		}
-	}
 }

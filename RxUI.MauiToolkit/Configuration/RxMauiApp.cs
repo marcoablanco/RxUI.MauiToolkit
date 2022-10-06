@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RxUI.MauiToolkit.Services.AppLog;
 using RxUI.MauiToolkit.Services.Loading;
+using RxUI.MauiToolkit.Utils;
 
 public static class RxMauiApp
 {
@@ -22,7 +23,9 @@ public static class RxMauiApp
 	private static MauiAppBuilder AddServices(this MauiAppBuilder builder)
 	{
 		builder.Services.AddSingleton(typeof(ILogService<>), typeof(LogService<>))
-						.AddScoped(typeof(ILoadingService<>), typeof(LoadingService<>));
+						.AddSingleton(typeof(ILogService), s => new LogService<Generic>(s))
+						.AddScoped(typeof(ILoadingService<>), typeof(LoadingService<>))
+						.AddScoped(typeof(ILoadingService), s => new LoadingService<Generic>());
 		return builder;
 	}
 }
