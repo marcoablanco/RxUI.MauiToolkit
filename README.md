@@ -18,8 +18,8 @@ Para inicializar el paquete usamos `.InitRxToolkit()`, que encontraremos en el n
 public static MauiApp CreateMauiApp()
 {
 	var builder = MauiApp.CreateBuilder()
-						 .UseMauiApp<App>()
-						 .InitRxToolkit();
+			     .UseMauiApp<App>()
+			     .InitRxToolkit();
 	...
 
 	return builder.Build();
@@ -35,7 +35,11 @@ Este NuGet está a favor de evitar el uso de `Reflection` en la inyección de de
 Por ejemplo:
 - Registro de nuestro `ViewModel`:
 ```csharp
+// yes
 builder.Services.AddTransient(s => new LoginViewModel(s));
+
+// no
+builder.Services.AddTransient<LoginViewModel>();
 ```
 - Constructor de nuestro `ViewModel`:
 ```csharp
