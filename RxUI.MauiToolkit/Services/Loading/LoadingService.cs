@@ -8,7 +8,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-internal class LoadingService<TCategory> : ReactiveObject, ILoadingService<TCategory>
+public class LoadingService<TCategory> : ReactiveObject, ILoadingService<TCategory>
 {
 	private SourceList<string> sourceLoadingTasks;
 	private ReadOnlyObservableCollection<string> loadingTasks;
