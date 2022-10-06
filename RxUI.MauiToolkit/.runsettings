@@ -39,7 +39,8 @@
 								<Source>.*\\public\\sdk\\.*</Source>
 								<Source>.*\\microsoft sdks\\.*</Source>
 								<Source>.*\\vc\\include\\.*</Source>
-								<Source>.*\\*.Tests</Source>
+								<Source>.*\\*.SampleUse\\.*</Source>
+								<Source>.*\\*.Tests\\.*</Source>
 							</Exclude>
 						</Sources>
 						<CompanyNames>
