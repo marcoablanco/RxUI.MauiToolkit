@@ -1,6 +1,6 @@
 
 variables:
-  solution: 'RxUI.MauiToolkit/RxUI.MauiToolkit.sln'
+  solution: 'RxUI.MauiToolkit.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   TOOLKIT_NET6_VERSION: '6.0.300'
