@@ -11,6 +11,14 @@
 							</Include>
 							<Exclude>
 								<ModulePath>.*CPPUnitTestFramework.*</ModulePath>
+								<ModulePath>.*Tests\.dll$</ModulePath>
+								<ModulePath>.*tests\.dll$</ModulePath>
+								<ModulePath>.*moq.dll</ModulePath>
+								<ModulePath>.*reactiveui.dll</ModulePath>
+								<ModulePath>.*splat.dll</ModulePath>
+								<ModulePath>.*reactiveui.maui.dll</ModulePath>
+								<ModulePath>.*dynamicdata.dll</ModulePath>
+								<ModulePath>.*system.reactive.dll</ModulePath>
 							</Exclude>
 						</ModulePaths>
 						<Functions>
@@ -41,6 +49,12 @@
 								<Source>.*\\vc\\include\\.*</Source>
 								<Source>.*\\*.SampleUse\\.*</Source>
 								<Source>.*\\*.Tests\\.*</Source>
+								<Source>.*.xaml</Source>
+								<Source>.*.xaml.cs</Source>
+								<Source>.*MauiProgram.cs</Source>
+								<Source>.*\\Bootstrapper\\.*</Source>
+								<Source>.*\\Exceptions\\.*</Source>
+								<Source>.*\\Extensions\\.*</Source>
 							</Exclude>
 						</Sources>
 						<CompanyNames>
