@@ -16,14 +16,9 @@ pr:
   branches:
     include:
     - main
-pr:
-  autoCancel: 'true'
-  branches:
-    include:
-    - develop
   paths:
     exclude:
-    - main
+    - develop
     - README.md
 
 jobs:
