@@ -51,7 +51,7 @@
 								<Source>.*\\*.Tests\\.*</Source>
 								<Source>.*.xaml</Source>
 								<Source>.*.xaml.cs</Source>
-								<Source>.*MauiProgram.cs</Source>
+								<Source>.*RxMauiApp.cs</Source>
 								<Source>.*\\Bootstrapper\\.*</Source>
 								<Source>.*\\Exceptions\\.*</Source>
 								<Source>.*\\Extensions\\.*</Source>
