@@ -63,6 +63,7 @@ jobs:
           !**\obj\**
         searchFolder: '$(System.DefaultWorkingDirectory)'
         resultsFolder: '$(Build.SourcesDirectory)\TestResults'
+        runSettingsFile: '**\*.runsettings'
         codeCoverageEnabled: true
         testRunTitle: 'Test for v$(GitVersion.SemVer)'
         platform: '$(buildPlatform)'
