@@ -13,6 +13,7 @@ using Microsoft.Maui.Controls.Shapes;
 
 public class LogService<TCategoryName> : ILogService<TCategoryName>
 {
+	private readonly string category;
 	private readonly ILogger<TCategoryName> logger;
 	private ObservableCollection<string> log;
 	private int i = 0;
@@ -20,9 +21,10 @@ public class LogService<TCategoryName> : ILogService<TCategoryName>
 	public LogService(IServiceProvider serviceProvider)
 	{
 		Ensure.NotNull(serviceProvider);
+		
+		logger = serviceProvider.GetRequiredService<ILogger<TCategoryName>>();
 
-		logger =serviceProvider.GetRequiredService<ILogger<TCategoryName>>();
-
+		category = typeof(TCategoryName).Name;
 		log = new ObservableCollection<string>();
 	}
 
@@ -144,6 +146,7 @@ public class LogService<TCategoryName> : ILogService<TCategoryName>
 
 	protected virtual string FormatLine(string line)
 	{
-		return $"{i++:D6}:{DateTime.UtcNow} - {nameof(TCategoryName)} - {line}";
+
+		return $"{i++:D6}:{DateTime.UtcNow} - {category} - {line}";
 	}
 }

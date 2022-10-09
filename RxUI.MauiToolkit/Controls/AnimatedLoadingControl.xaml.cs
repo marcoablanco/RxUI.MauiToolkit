@@ -1,12 +1,15 @@
 namespace RxUI.MauiToolkit.Controls;
 
+using ReactiveUI;
+using RxUI.MauiToolkit.Services.Loading;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 public partial class AnimatedLoadingControl
 {
-	public static readonly BindableProperty BackgroundShapeBrushProperty = BindableProperty.Create(nameof(BackgroundShapeBrush), typeof(Brush), typeof(AnimatedLoadingControl), Brush.Gray);
+	public static readonly BindableProperty BackgroundShapeBrushProperty = BindableProperty.Create(nameof(BackgroundShapeBrush), typeof(Brush), typeof(AnimatedLoadingControl), Brush.LightSlateGray);
+	public static readonly BindableProperty BackgroundLabelBrushProperty = BindableProperty.Create(nameof(BackgroundLabelBrush), typeof(Brush), typeof(AnimatedLoadingControl), Brush.Transparent);
 	public static readonly BindableProperty BackgroundShapeOpacityProperty = BindableProperty.Create(nameof(BackgroundShapeOpacity), typeof(double), typeof(AnimatedLoadingControl), 0.8);
 	public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(AnimatedLoadingControl), string.Empty);
 
@@ -16,6 +19,12 @@ public partial class AnimatedLoadingControl
 	}
 
 	public bool IsLoading => !string.IsNullOrEmpty(Text);
+
+	public Brush BackgroundLabelBrush
+	{
+		get => (Brush)GetValue(BackgroundLabelBrushProperty);
+		set => SetValue(BackgroundLabelBrushProperty, value);
+	}
 
 	public Brush BackgroundShapeBrush
 	{
@@ -35,12 +44,20 @@ public partial class AnimatedLoadingControl
 		set => SetValue(TextProperty, value);
 	}
 
+	public IDisposable BindLoadingService(ILoadingService loadingService)
+	{
+		return loadingService.WhenAnyValue(s => s.LastLoadingTask).Subscribe(text => Text = text);
+	}
+
+
 	protected override async void OnPropertyChanged([CallerMemberName] string? propertyName = null)
 	{
 		base.OnPropertyChanged(propertyName);
 
 		if (propertyName == TextProperty.PropertyName)
 			OnTextPropertyChanged();
+		else if (propertyName == BackgroundLabelBrushProperty.PropertyName)
+			LblText.Background = BackgroundLabelBrush;
 		else if (propertyName == BackgroundShapeBrushProperty.PropertyName)
 			ShapeBackground.Fill = BackgroundShapeBrush;
 		else if (propertyName == BackgroundShapeOpacityProperty.PropertyName)
@@ -78,7 +95,7 @@ public partial class AnimatedLoadingControl
 				{ 0.5, 1, new Animation(x => LblText.TranslationX = x, movement, 0) },
 				{ 0, 0.5, new Animation(x => LblText.Opacity = x, 0, 1) },
 			};
-			animation.Commit(this, nameof(AnimatedLoadingControl));
+			animation.Commit(this, nameof(AnimatedLoadingControl), length: 500);
 		}
 	}
 }

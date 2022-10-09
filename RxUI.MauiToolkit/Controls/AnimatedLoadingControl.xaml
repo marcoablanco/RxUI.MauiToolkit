@@ -11,10 +11,16 @@
 				   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
 		
 		<ActivityIndicator x:Name="Loading"
+						   Grid.Row="0"
+						   IsRunning="True" 
+						   HeightRequest="100" WidthRequest="100"
 						   VerticalOptions="Center" />
 
 		<Label x:Name="LblText"
+			   Grid.Row="1"
+			   FontSize="Medium" TextColor="Black" FontAttributes="Bold"
 			   HorizontalTextAlignment="Center"
-			   VerticalOptions="Start" />
+			   Padding="5" Margin="50,0" 
+			   HorizontalOptions="Center" VerticalOptions="Start" />
 	</Grid>
 </ContentView>
