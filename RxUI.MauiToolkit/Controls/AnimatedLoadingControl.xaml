@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RxUI.MauiToolkit.Controls.AnimatedLoadingControl"
+			 IsVisible="False">
+	<Grid RowDefinitions="*,*">
+		
+		<Rectangle x:Name="ShapeBackground"
+				   Grid.RowSpan="2"
+				   Fill="Gray" 
+				   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+		
+		<ActivityIndicator x:Name="Loading"
+						   Grid.Row="0"
+						   IsRunning="True" 
+						   HeightRequest="100" WidthRequest="100"
+						   VerticalOptions="Center" />
+
+		<Label x:Name="LblText"
+			   Grid.Row="1"
+			   FontSize="Medium" TextColor="Black" FontAttributes="Bold"
+			   HorizontalTextAlignment="Center"
+			   Padding="5" Margin="50,0" 
+			   HorizontalOptions="Center" VerticalOptions="Start" />
+	</Grid>
+</ContentView>

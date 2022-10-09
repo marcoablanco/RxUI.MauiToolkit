@@ -10,32 +10,28 @@ using System.Reactive.Subjects;
 
 public class LoadingService<TCategory> : ReactiveObject, ILoadingService<TCategory>
 {
-	private SourceList<string> sourceLoadingTasks;
-	private ReadOnlyObservableCollection<string> loadingTasks;
+	private List<string> loadingTasks;
 	private CompositeDisposable? disposables;
+	private string lastLoadingTask;
 
 	public LoadingService()
 	{
-		disposables = new CompositeDisposable();
-		sourceLoadingTasks = new SourceList<string>();
+		loadingTasks = new List<string>();
 
-		disposables.Add(sourceLoadingTasks.Connect()
-										  .ObserveOn(RxApp.MainThreadScheduler)
-										  .Bind(out loadingTasks)
-										  .Subscribe(_ => this.RaisePropertyChanged(nameof(LoadingTasks))));
-
-		LastLoadingTask = this.WhenAnyValue(s => s.LoadingTasks).Select(s => s.LastOrDefault());
-		IsLoading = LastLoadingTask.Select(t => !string.IsNullOrEmpty(t));
+		lastLoadingTask = string.Empty;
+		IsLoading = this.WhenAnyValue(s => s.LastLoadingTask).Select(t => !string.IsNullOrEmpty(t));
 		IsNotLoading = IsLoading.Select(x => !x);
 	}
 
-	public IObservable<string?> LastLoadingTask { get; }
+	public string LastLoadingTask
+	{
+		get => lastLoadingTask;
+		set => this.RaiseAndSetIfChanged(ref lastLoadingTask, value);
+	}
 
 	public IObservable<bool> IsLoading { get; }
 
 	public IObservable<bool> IsNotLoading { get; }
-
-	public ReadOnlyObservableCollection<string> LoadingTasks => loadingTasks;
 
 	public void Dispose()
 	{
@@ -45,17 +41,26 @@ public class LoadingService<TCategory> : ReactiveObject, ILoadingService<TCatego
 
 	public void Add(string loadingTask)
 	{
-		sourceLoadingTasks.Add(loadingTask);
+		loadingTasks.Add(loadingTask);
+		LastLoadingTask = loadingTask;
 	}
 
 
 	public void Remove(string loadingTask)
 	{
-		sourceLoadingTasks.Remove(loadingTask);
+		loadingTasks.Remove(loadingTask);
+		if (loadingTask == LastLoadingTask)
+		{
+			if (loadingTasks.Any())
+				LastLoadingTask = loadingTasks.LastOrDefault(string.Empty);
+			else
+				LastLoadingTask = string.Empty;
+		}
 	}
 
 	public void RemoveAll()
 	{
-		sourceLoadingTasks.Clear();
+		loadingTasks.Clear();
+		LastLoadingTask = string.Empty;
 	}
 }

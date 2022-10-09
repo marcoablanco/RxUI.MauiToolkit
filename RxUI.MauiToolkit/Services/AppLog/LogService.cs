@@ -9,9 +9,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using RxUI.MauiToolkit.Utils;
+using Microsoft.Maui.Controls.Shapes;
 
 public class LogService<TCategoryName> : ILogService<TCategoryName>
 {
+	private readonly string category;
 	private readonly ILogger<TCategoryName> logger;
 	private ObservableCollection<string> log;
 	private int i = 0;
@@ -19,16 +21,17 @@ public class LogService<TCategoryName> : ILogService<TCategoryName>
 	public LogService(IServiceProvider serviceProvider)
 	{
 		Ensure.NotNull(serviceProvider);
+		
+		logger = serviceProvider.GetRequiredService<ILogger<TCategoryName>>();
 
-		logger =serviceProvider.GetRequiredService<ILogger<TCategoryName>>();
-
+		category = typeof(TCategoryName).Name;
 		log = new ObservableCollection<string>();
 	}
 
 
 	public virtual void Log(string line)
 	{
-		string lineToWrite = $"{i++:D6}:{DateTime.UtcNow} - {line}";
+		string lineToWrite = FormatLine(line);
 		log.Add(lineToWrite);
 
 		logger.LogDebug(lineToWrite);
@@ -36,7 +39,7 @@ public class LogService<TCategoryName> : ILogService<TCategoryName>
 
 	public virtual void Event(string eventName)
 	{
-		string lineToWrite = $"{i++:D6}:{DateTime.UtcNow} - Event: {eventName}";
+		string lineToWrite = FormatLine($"Event: {eventName}");
 		log.Add(lineToWrite);
 
 		logger.LogTrace(lineToWrite);
@@ -45,7 +48,7 @@ public class LogService<TCategoryName> : ILogService<TCategoryName>
 
 	public void Warning(Exception ex)
 	{
-		string lineToWrite = $"{i++:D6}:{DateTime.UtcNow} - {GetExceptionData(ex)}";
+		string lineToWrite = FormatLine(GetExceptionData(ex));
 		log.Add(lineToWrite);
 
 		logger.LogWarning(ex, lineToWrite);
@@ -55,7 +58,7 @@ public class LogService<TCategoryName> : ILogService<TCategoryName>
 
 	public void Error(Exception ex)
 	{
-		string lineToWrite = $"{i++:D6}:{DateTime.UtcNow} {GetExceptionData(ex)}";
+		string lineToWrite = FormatLine(GetExceptionData(ex));
 		log.Add(lineToWrite);
 
 		logger.LogError(ex, lineToWrite);
@@ -139,5 +142,11 @@ public class LogService<TCategoryName> : ILogService<TCategoryName>
 		properties.Add("Device VersionString", DeviceInfo.VersionString);
 
 		return properties;
+	}
+
+	protected virtual string FormatLine(string line)
+	{
+
+		return $"{i++:D6}:{DateTime.UtcNow} - {category} - {line}";
 	}
 }

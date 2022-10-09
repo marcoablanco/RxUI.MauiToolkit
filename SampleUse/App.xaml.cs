@@ -7,12 +7,12 @@ public partial class App : Application
 {
 	private readonly ILogService logService;
 
-	public App(LoginPage loginPage, ILogService logService)
+	public App(IServiceProvider serviceProvider)
 	{
-		this.logService = logService;
+		this.logService = serviceProvider.GetRequiredService<ILogService>();
 		InitializeComponent();
 
-		MainPage = loginPage;
+		MainPage = serviceProvider.GetRequiredService<LoginPage>();
 	}
 
 	protected override void OnStart()

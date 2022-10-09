@@ -3,7 +3,7 @@
 
 public interface ILoadingService : IDisposable
 {
-	IObservable<string?> LastLoadingTask { get; }
+	string LastLoadingTask { get; }
 	IObservable<bool> IsLoading { get; }
 	IObservable<bool> IsNotLoading { get; }
 
