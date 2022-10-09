@@ -21,7 +21,6 @@ public class GivenLoadingService
 			Assert.IsNotNull(loadingservice.LastLoadingTask);
 			Assert.IsNotNull(loadingservice.IsLoading);
 			Assert.IsNotNull(loadingservice.IsNotLoading);
-			Assert.IsNotNull(loadingservice.LoadingTasks);
 		}
 	}
 
