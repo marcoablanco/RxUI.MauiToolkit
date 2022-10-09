@@ -16,12 +16,14 @@ public static class RxMauiApp
 					 .AddConsole();
 
 		});
+
 		return builder.AddServices();
 
 	}
 
 	private static MauiAppBuilder AddServices(this MauiAppBuilder builder)
 	{
+		// Can't avoid reflection with generic types.
 		builder.Services.AddSingleton(typeof(ILogService<>), typeof(LogService<>))
 						.AddSingleton(typeof(ILogService), s => new LogService<Generic>(s))
 						.AddScoped(typeof(ILoadingService<>), typeof(LoadingService<>))
