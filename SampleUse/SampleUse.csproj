@@ -62,6 +62,11 @@
 	  <Compile Update="Features\Main\MainShell.xaml.cs">
 	    <DependentUpon>MainShell.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Features\Main\Text.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Text.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -79,6 +84,10 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Update="Features\Login\Text.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Text.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Features\Main\Text.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Text.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>

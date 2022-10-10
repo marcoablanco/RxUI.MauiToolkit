@@ -27,7 +27,7 @@ public static class RxMauiApp
 		builder.Services.AddSingleton(typeof(ILogService<>), typeof(LogService<>))
 						.AddSingleton(typeof(ILogService), s => new LogService<Generic>(s))
 						.AddScoped(typeof(ILoadingService<>), typeof(LoadingService<>))
-						.AddScoped(typeof(ILoadingService), s => new LoadingService<Generic>());
+						.AddScoped(typeof(ILoadingService), s => new LoadingService<Generic>(s));
 		return builder;
 	}
 }

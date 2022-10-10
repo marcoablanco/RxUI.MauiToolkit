@@ -23,8 +23,8 @@ internal class MockedAuthenticationService : IAuthenticationService
 			Username = user,
 			OAuth = "Soy el mejor Token que verás jamás",
 			RefreshToken = "Soy un token de refresco, salgo en el segundo tiempo.",
-			ValidAt = new DateTimeOffset().AddHours(12),
-			RefreshValidAt = new DateTimeOffset().AddMonths(3)
+			ValidAt = DateTimeOffset.UtcNow.AddHours(12),
+			RefreshValidAt = DateTimeOffset.UtcNow.AddMonths(3)
 		};
 	}
 
@@ -39,8 +39,8 @@ internal class MockedAuthenticationService : IAuthenticationService
 		{
 			OAuth = "Soy el mejor Token que verás jamás",
 			RefreshToken = "Soy un token de refresco, salgo en el segundo tiempo.",
-			ValidAt = new DateTimeOffset().AddHours(12),
-			RefreshValidAt = new DateTimeOffset().AddMonths(3)
+			ValidAt = DateTimeOffset.UtcNow.AddHours(12),
+			RefreshValidAt = DateTimeOffset.UtcNow.AddMonths(3)
 		});
 	}
 }

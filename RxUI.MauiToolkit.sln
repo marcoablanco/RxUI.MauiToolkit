@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleUse", "SampleUse\Samp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A3CB427-6A95-4DD9-97F6-4E200E9531BD}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\GeoAlert\.editorconfig = ..\..\GeoAlert\.editorconfig
+		.editorconfig = .editorconfig
 		.runsettings = .runsettings
 	EndProjectSection
 EndProject
