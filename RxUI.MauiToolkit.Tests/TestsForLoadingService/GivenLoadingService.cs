@@ -1,6 +1,4 @@
 ﻿namespace RxUI.MauiToolkit.Tests.TestsForLoadingService;
-
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using RxUI.MauiToolkit.Services.Loading;
@@ -15,7 +13,9 @@ public class GivenLoadingService
 		[TestMethod]
 		public void ThenPropertiesAreNotNull()
 		{
-			LoadingService<MockGeneric> loadingservice = new LoadingService<MockGeneric>();
+			var mockServiceProvider = Substitute.For<IServiceProvider>();
+			mockServiceProvider.GetService(typeof(ILoadingService)).Returns(Substitute.For<ILoadingService>());
+			LoadingService<MockGeneric> loadingservice = new LoadingService<MockGeneric>(mockServiceProvider);
 
 			Assert.IsNotNull(loadingservice);
 			Assert.IsNotNull(loadingservice.LastLoadingTask);
