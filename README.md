@@ -2,11 +2,6 @@
 
 Toolkit genérico usando ReactiveUI con clases base, helpers, servicios y controles típicos en proyectos.
 
-- [RxUI.MauiToolkit](#rxuimauitoolkit)
-	- [Inicialización](#inicialización)
-	- [ViewModels](#viewmodels)
-	- [Log](#log)
-	- [LoadingService](#loadingservice)
 
  - Main: [![Build Status](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_apis/build/status/marcoablanco.RxUI.MauiToolkit?branchName=main)](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_build/latest?definitionId=2&branchName=main)
  - Develop: [![Build Status](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_apis/build/status/Develop%20CI?branchName=develop)](https://marcoantonioblanco.visualstudio.com/RxUI.MauiToolkit/_build/latest?definitionId=3&branchName=develop)
