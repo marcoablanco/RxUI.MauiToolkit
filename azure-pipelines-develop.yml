@@ -48,7 +48,7 @@ jobs:
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
-        msbuildArgs: '/p:Version="$(GitVersion.BuildMetaData)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)"'
+        msbuildArgs: '/p:Version="$(GitVersion.BuildMetaData)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)" /p:ApplicationVersion="$(GitVersion.BuildMetaData)"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
