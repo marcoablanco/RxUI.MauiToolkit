@@ -33,6 +33,7 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<Version>1.0</Version>
 		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
