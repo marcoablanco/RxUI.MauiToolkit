@@ -9,7 +9,7 @@ public partial class DashboardPage
 
 	public DashboardPage(IServiceProvider serviceProvider) : base(serviceProvider)
 	{
-		loadingService = serviceProvider.GetRequiredService<ILoadingService>();
+		loadingService = serviceProvider.GetRequiredService<ILoadingService<DashboardViewModel>>();
 
 		InitializeComponent();
 	}

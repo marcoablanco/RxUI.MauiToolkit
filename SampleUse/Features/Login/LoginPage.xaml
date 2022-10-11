@@ -7,6 +7,13 @@
 						 x:Class="SampleUse.Features.Login.LoginPage"
 						 x:TypeArguments="login:LoginViewModel"
 						 Title="LoginPage">
+	<ContentPage.Background>
+		<LinearGradientBrush StartPoint="0.5,0.0" EndPoint="0.5,1">
+			<GradientStop Color="Green" Offset="0.0" />
+			<GradientStop Color="White" Offset="0.5" />
+			<GradientStop Color="Green" Offset="1.0" />
+		</LinearGradientBrush>
+	</ContentPage.Background>
 	<Grid>
 		<Border Stroke="Black" StrokeShape="RoundRectangle 40" 
 				Padding="20,40" Margin="50"

@@ -1,6 +1,7 @@
 ﻿namespace SampleUse.Features.Login;
 
 using Microsoft.Extensions.DependencyInjection;
+using RxUI.MauiToolkit.Session;
 using RxUI.MauiToolkit.Utils;
 using SampleUse.Services.Authentication;
 using SampleUse.Services.Persistance;
@@ -29,8 +30,10 @@ internal class LoginService : ILoginService
 		Ensure.NotNull(token, nameof(token));
 
 		token = await authenticationService.RefreshTokenAsync(token.RefreshToken);
-
 		Ensure.NotNull(token, nameof(token));
+
+		string user = await persistanceService.GetUserAsync();
+		AppSession.CreateSession(serviceProvider, user);
 		await persistanceService.SaveTokenAsync(token);
 		preferencesService.SaveDateRefresh(token.RefreshValidAt);
 	}
@@ -41,8 +44,11 @@ internal class LoginService : ILoginService
 		Ensure.NotNullOrEmpty(password, nameof(password));
 
 		Token token = await authenticationService.GetTokenAsync(user, password);
-
 		Ensure.NotNull(token, nameof(token));
+
+
+		AppSession.CreateSession(serviceProvider, user);
+		await persistanceService.SaveUserAsync(user);
 		await persistanceService.SaveTokenAsync(token);
 		preferencesService.SaveDateRefresh(token.RefreshValidAt);
 	}
