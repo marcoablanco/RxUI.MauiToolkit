@@ -10,8 +10,9 @@ variables:
 trigger:
   branches:
     include:
-    - main
-    - release/*
+      - main
+    exclude:
+      - develop
 pr:
   autoCancel: 'true'
   branches:
