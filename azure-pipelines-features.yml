@@ -1,0 +1,90 @@
+
+variables:
+  solution: 'RxUI.MauiToolkit.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  TOOLKIT_NET6_VERSION: '6.0.300'
+  LATEST_NET6_VERSION: '6.0.x'
+
+
+trigger:
+  branches:
+    include:
+      - feature/*
+    exclude:
+      - main
+      - develop
+pr:
+  autoCancel: 'true'
+  branches:
+    include:
+      - feature/*
+  paths:
+    exclude:
+    - main
+    - develop
+    - README.md
+
+jobs:
+  - job: build
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: NuGetToolInstaller@1
+    
+    - checkout: self
+      fetchDepth: 0
+
+    - task: gitversion/setup@0
+      displayName: Install GitVersion
+      inputs:
+        versionSpec: "5.10.x"
+    
+    - task: gitversion/execute@0
+      displayName: Determine Version
+
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)' 
+
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:Version="$(BuildMetaData)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)" /p:ApplicationVersion="$(GitVersion.BuildMetaData)"'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*RxUI.MauiToolkit.Tests*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        resultsFolder: '$(Build.SourcesDirectory)\TestResults'
+        runSettingsFile: '$(Build.SourcesDirectory)\.runsettings'
+        codeCoverageEnabled: true
+        testRunTitle: 'Test for v$(BuildMetaData)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+    
+    - task: reportgenerator@5
+      displayName: ReportGenerator
+      inputs:
+        reports: '$(Build.SourcesDirectory)\TestResults\**\*.coverage'
+        targetdir: '$(Build.SourcesDirectory)\bin\coveragereport'
+        reporttypes: Html;XML;MarkdownSummary
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: '**\bin\**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'Builds'
+        publishLocation: 'Container'
