@@ -11,6 +11,7 @@ trigger:
   branches:
     include:
     - main
+    - release/*
 pr:
   autoCancel: 'true'
   branches:
@@ -46,7 +47,7 @@ jobs:
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
-        msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)"'
+        msbuildArgs: '/p:Version="$(GitVersion.BuildMetaData)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)" /p:ApplicationVersion="$(GitVersion.BuildMetaData)"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
@@ -61,7 +62,7 @@ jobs:
         resultsFolder: '$(Build.SourcesDirectory)\TestResults'
         runSettingsFile: '$(Build.SourcesDirectory)\.runsettings'
         codeCoverageEnabled: true
-        testRunTitle: 'Test for v$(GitVersion.SemVer)'
+        testRunTitle: 'Test for v$(BuildMetaData)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
     
