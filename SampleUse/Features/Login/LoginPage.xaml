@@ -20,16 +20,17 @@
 				VerticalOptions="Center">
 			<Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="30">
 
-				<Entry x:Name="TxtUser" 
+				<Entry x:Name="TxtUser"
 					   Placeholder="{Static login:Text.User}" />
 
 				<Entry x:Name="TxtPassword"
 					   Grid.Row="1"
 					   Placeholder="{Static login:Text.Password}" IsPassword="True" />
 
-				<Button x:Name="BtnLogin"
-						Grid.Row="2"
-						Text="{Static login:Text.Login}" />
+				<controls:RxButton x:Name="BtnLogin"
+								   Grid.Row="2"
+								   Text="{Static login:Text.Login}" TextColor="DarkBlue" Background="White"
+								   HorizontalTextAlignment="End" VerticalTextAlignment="End" />
 
 			</Grid>
 		</Border>
