@@ -1,7 +1,4 @@
 ﻿namespace SampleUse.Configuration;
-
-using Microsoft.Extensions.Logging;
-
 internal static class MauiConfiguration
 {
 	public static MauiAppBuilder ConfigureApp(this MauiAppBuilder builder)

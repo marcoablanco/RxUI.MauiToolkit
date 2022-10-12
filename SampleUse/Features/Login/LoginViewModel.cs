@@ -8,26 +8,25 @@ using RxUI.MauiToolkit.Utils;
 using SampleUse.Features.Main;
 using SampleUse.Services.Authentication;
 using SampleUse.Services.Persistance;
+using SampleUse.Services.Preferences;
 using System;
 using System.Reactive;
 using System.Reactive.Disposables;
 
 public class LoginViewModel : RxBasePageViewModel
 {
-	private readonly IAuthenticationService authenticationService;
 	private readonly ILoadingService loadingService;
 	private readonly ILogService logService;
-	private readonly IPersistanceService persistanceService;
+	private readonly ILoginService loginService;
 	private readonly IServiceProvider serviceProvider;
 	private string user;
 	private string password;
 
 	public LoginViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
 	{
-		authenticationService = serviceProvider.GetRequiredService<IAuthenticationService>();
 		logService = serviceProvider.GetRequiredService<ILogService<LoginViewModel>>();
 		loadingService = serviceProvider.GetRequiredService<ILoadingService<LoginViewModel>>();
-		persistanceService = serviceProvider.GetRequiredService<IPersistanceService>();
+		loginService = serviceProvider.GetRequiredService<ILoginService>();
 
 		user = string.Empty;
 		password = string.Empty;
@@ -67,17 +66,10 @@ public class LoginViewModel : RxBasePageViewModel
 			Ensure.NotNullOrEmpty(User, nameof(User));
 			Ensure.NotNullOrEmpty(Password, nameof(Password));
 
-			Token token = await authenticationService.GetTokenAsync(User, Password);
-			if (token is null)
-			{
-				// TODO Show Alert with incorrect login.
-			}
-			else
-			{
-				await persistanceService.SaveTokenAsync(token);
-				var mainPage = serviceProvider.GetRequiredService<MainShell>();
-				Application.Current.MainPage = mainPage;
-			} 
+			await loginService.LoginAsync(User, Password);
+
+			var mainPage = serviceProvider.GetRequiredService<MainShell>();
+			Dispatch(() => Application.Current.MainPage = mainPage);
 
 		}
 		catch (Exception ex)

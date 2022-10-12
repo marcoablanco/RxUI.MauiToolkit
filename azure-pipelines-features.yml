@@ -10,16 +10,18 @@ variables:
 trigger:
   branches:
     include:
-      - main
+      - feature/*
     exclude:
+      - main
       - develop
 pr:
   autoCancel: 'true'
   branches:
     include:
-    - main
+      - feature/*
   paths:
     exclude:
+    - main
     - develop
     - README.md
 

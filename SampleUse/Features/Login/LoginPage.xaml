@@ -7,22 +7,30 @@
 						 x:Class="SampleUse.Features.Login.LoginPage"
 						 x:TypeArguments="login:LoginViewModel"
 						 Title="LoginPage">
+	<ContentPage.Background>
+		<LinearGradientBrush StartPoint="0.5,0.0" EndPoint="0.5,1">
+			<GradientStop Color="Green" Offset="0.0" />
+			<GradientStop Color="White" Offset="0.5" />
+			<GradientStop Color="Green" Offset="1.0" />
+		</LinearGradientBrush>
+	</ContentPage.Background>
 	<Grid>
 		<Border Stroke="Black" StrokeShape="RoundRectangle 40" 
 				Padding="20,40" Margin="50"
 				VerticalOptions="Center">
 			<Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="30">
 
-				<Entry x:Name="TxtUser" 
+				<Entry x:Name="TxtUser"
 					   Placeholder="{Static login:Text.User}" />
 
 				<Entry x:Name="TxtPassword"
 					   Grid.Row="1"
 					   Placeholder="{Static login:Text.Password}" IsPassword="True" />
 
-				<Button x:Name="BtnLogin"
-						Grid.Row="2"
-						Text="{Static login:Text.Login}" />
+				<controls:RxButton x:Name="BtnLogin"
+								   Grid.Row="2"
+								   Text="{Static login:Text.Login}" TextColor="DarkBlue" Background="White"
+								   HorizontalTextAlignment="End" VerticalTextAlignment="End" />
 
 			</Grid>
 		</Border>

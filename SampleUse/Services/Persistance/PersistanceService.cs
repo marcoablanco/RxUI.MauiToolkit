@@ -24,6 +24,16 @@ internal class PersistanceService : IPersistanceService
 		await SaveAsync(StorageKeys.Token, token);
 	}
 
+	public async Task<string?> GetUserAsync()
+	{
+		return await GetAsync<string>(StorageKeys.User);
+	}
+
+	public async Task SaveUserAsync(string user)
+	{
+		await SaveAsync(StorageKeys.User, user);
+	}
+
 
 	private async Task SaveAsync<T>(string key, T value)
 	{
