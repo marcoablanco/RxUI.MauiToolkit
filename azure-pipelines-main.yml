@@ -48,7 +48,7 @@ jobs:
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
-        msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)" /p:ApplicationVersion="$(GitVersion.SemVer)"'
+        msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)" /p:ApplicationVersion="$(GitVersion.WeightedPreReleaseNumber)"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
