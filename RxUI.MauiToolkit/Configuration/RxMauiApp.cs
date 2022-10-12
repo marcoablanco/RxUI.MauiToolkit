@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RxUI.MauiToolkit.Controls;
 using RxUI.MauiToolkit.Services.AppLog;
 using RxUI.MauiToolkit.Services.Loading;
 using RxUI.MauiToolkit.Utils;
@@ -17,7 +18,8 @@ public static class RxMauiApp
 
 		});
 
-		return builder.AddServices();
+		return builder.AddHandlers()
+					  .AddServices();
 
 	}
 
@@ -29,5 +31,20 @@ public static class RxMauiApp
 						.AddScoped(typeof(ILoadingService<>), typeof(LoadingService<>))
 						.AddScoped(typeof(ILoadingService), s => new LoadingService<Generic>(s));
 		return builder;
+	}
+
+	public static MauiAppBuilder AddHandlers(this MauiAppBuilder builder)
+	{
+		return builder.ConfigureMauiHandlers(
+			handlers =>
+			{
+#if ANDROID
+				handlers.AddHandler<RxButton, Platforms.Android.Handlers.RxButtonHandler>();
+#elif IOS
+				handlers.AddHandler<RxButton, Platforms.iOS.Handlers.RxButtonHandler>();
+#elif WINDOWS
+				handlers.AddHandler<RxButton, Platforms.Windows.Handlers.RxButtonHandler>();
+#endif
+			});
 	}
 }

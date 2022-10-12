@@ -37,7 +37,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Folder Include="Platforms\Android\" />
 	  <Folder Include="Services\AppLog\" />
 	</ItemGroup>
 

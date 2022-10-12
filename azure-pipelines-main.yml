@@ -48,7 +48,7 @@ jobs:
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
-        msbuildArgs: '/p:Version="$(GitVersion.BuildMetaData)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)" /p:ApplicationVersion="$(GitVersion.BuildMetaData)"'
+        msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:ApplicationDisplayVersion="$(GitVersion.SemVer)" /p:ApplicationVersion="$(GitVersion.SemVer)"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
@@ -63,7 +63,7 @@ jobs:
         resultsFolder: '$(Build.SourcesDirectory)\TestResults'
         runSettingsFile: '$(Build.SourcesDirectory)\.runsettings'
         codeCoverageEnabled: true
-        testRunTitle: 'Test for v$(BuildMetaData)'
+        testRunTitle: 'Test for v$(SemVer)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
     
